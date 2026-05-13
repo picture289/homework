@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>胚胎发生总论 - 翻转课堂</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "SimSun", "Noto Sans SC", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .header {
+            text-align: center; padding: 40px 20px;
+            background: rgba(255,255,255,0.95); border-radius: 20px;
+            margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .header h1 { font-size: 2.8em; color: #4a148c; margin-bottom: 10px; }
+        .header .subtitle { font-size: 1.3em; color: #7b1fa2; margin-bottom: 15px; }
+        .header .info { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .info-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 8px 20px; border-radius: 25px; font-size: 0.95em;
+        }
+
+        .nav-bar {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.95); padding: 15px;
+            border-radius: 15px; margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15); backdrop-filter: blur(10px);
+        }
+        .nav-bar ul { display: flex; justify-content: center; gap: 15px; list-style: none; flex-wrap: wrap; }
+        .nav-bar li a {
+            text-decoration: none; color: #4a148c; padding: 10px 18px;
+            border-radius: 10px; transition: all 0.3s; font-weight: 600; display: block;
+        }
+        .nav-bar li a:hover, .nav-bar li a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; transform: translateY(-2px);
+        }
+
+        .section-card {
+            background: rgba(255,255,255,0.95); border-radius: 20px;
+            padding: 35px; margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15); transition: transform 0.3s;
+        }
+        .section-card:hover { transform: translateY(-5px); }
+
+        .section-title {
+            font-size: 2em; color: #4a148c; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 3px solid #667eea;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .section-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2em; font-weight: bold; flex-shrink: 0;
+        }
+
+        .subsection { margin: 25px 0; padding-left: 20px; border-left: 4px solid #9575cd; }
+        .subsection-title {
+            font-size: 1.5em; color: #6a1b9a; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .subsection-icon { font-size: 1.3em; }
+
+        .content-text { line-height: 2; font-size: 1.1em; color: #444; text-align: justify; }
+        .content-text p { margin-bottom: 15px; text-indent: 2em; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+            border-left: 5px solid #3f51b5; padding: 20px;
+            margin: 20px 0; border-radius: 0 15px 15px 0;
+        }
+        .highlight-box .title { font-weight: bold; color: #283593; margin-bottom: 10px; font-size: 1.2em; }
+
+        .key-term {
+            display: inline-block; background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: #e65100; padding: 2px 10px; border-radius: 8px;
+            font-weight: 600; margin: 0 3px;
+        }
+        .important {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            color: #c2185b; padding: 2px 10px; border-radius: 8px; font-weight: 600;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 3px dashed #9c27b0; border-radius: 15px;
+            padding: 30px; margin: 25px 0; text-align: center; position: relative; overflow: hidden;
+        }
+        .image-placeholder::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(156,39,176,0.05) 10px, rgba(156,39,176,0.05) 20px);
+        }
+        .image-placeholder .img-label { font-size: 1.3em; color: #7b1fa2; font-weight: bold; margin-bottom: 10px; position: relative; z-index: 1; }
+        .image-placeholder .img-desc { color: #8e24aa; font-size: 1em; position: relative; z-index: 1; }
+        .image-placeholder .img-source {
+            display: inline-block; background: #9c27b0; color: white;
+            padding: 5px 15px; border-radius: 20px; margin-top: 10px;
+            font-size: 0.9em; position: relative; z-index: 1;
+        }
+
+        .flow-chart {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            align-items: center; gap: 10px; margin: 25px 0;
+            padding: 20px; background: #fafafa; border-radius: 15px;
+        }
+        .flow-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 15px 25px; border-radius: 12px;
+            font-weight: 600; text-align: center; min-width: 120px;
+        }
+        .flow-arrow { font-size: 2em; color: #7b1fa2; }
+
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 20px 0;
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .data-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 15px; text-align: left; font-size: 1.1em;
+        }
+        .data-table td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; }
+        .data-table tr:hover { background: #f5f5f5; }
+        .data-table tr:nth-child(even) { background: #fafafa; }
+
+        .knowledge-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; margin: 20px 0;
+        }
+        .knowledge-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px; padding: 25px;
+            border-left: 5px solid #667eea; transition: all 0.3s;
+        }
+        .knowledge-card:hover {
+            transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .knowledge-card h4 { color: #4a148c; margin-bottom: 12px; font-size: 1.2em; }
+        .knowledge-card p { color: #555; line-height: 1.8; font-size: 0.95em; }
+
+        .timeline { position: relative; padding-left: 40px; margin: 20px 0; }
+        .timeline::before {
+            content: ""; position: absolute; left: 15px; top: 0; bottom: 0;
+            width: 3px; background: linear-gradient(180deg, #667eea, #764ba2); border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative; margin-bottom: 25px;
+            background: #f8f9fa; padding: 20px; border-radius: 12px;
+        }
+        .timeline-item::before {
+            content: ""; position: absolute; left: -33px; top: 25px;
+            width: 15px; height: 15px; background: #667eea;
+            border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .timeline-item .time { font-weight: bold; color: #4a148c; font-size: 1.1em; margin-bottom: 8px; }
+
+        .compare-box { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .compare-item { padding: 20px; border-radius: 12px; }
+        .compare-item.left { background: linear-gradient(135deg, #e8eaf6, #c5cae9); border-top: 4px solid #3f51b5; }
+        .compare-item.right { background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-top: 4px solid #e91e63; }
+
+        .summary-section {
+            background: linear-gradient(135deg, #4a148c, #6a1b9a);
+            color: white; padding: 40px; border-radius: 20px; margin-top: 30px;
+        }
+        .summary-section h2 { text-align: center; margin-bottom: 25px; font-size: 2em; }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+        }
+        .summary-item { background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; backdrop-filter: blur(10px); }
+        .summary-item h4 { margin-bottom: 10px; color: #ffd54f; }
+
+        .footer { text-align: center; padding: 30px; color: rgba(255,255,255,0.8); margin-top: 20px; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .section-title { font-size: 1.5em; }
+            .nav-bar ul { gap: 8px; }
+            .nav-bar li a { padding: 8px 12px; font-size: 0.9em; }
+            .section-card { padding: 20px; }
+            .compare-box { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-card { animation: fadeInUp 0.6s ease-out; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🧬 胚胎发生总论</h1>
+            <div class="subtitle">组织学与胚胎学 · 第21章</div>
+            <div class="info">
+                <span class="info-tag">📖 第10版教材</span>
+                <span class="info-tag">⏱️ 受精龄约38周</span>
+                <span class="info-tag">📅 胚前期→胚期→胎期</span>
+            </div>
+        </header>
+
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="#section1" class="active">生殖细胞与受精</a></li>
+                <li><a href="#section2">胚泡形成与植入</a></li>
+                <li><a href="#section3">胚层形成</a></li>
+                <li><a href="#section4">胚层分化与胚体形成</a></li>
+                <li><a href="#section5">胎膜与胎盘</a></li>
+                <li><a href="#section6">胚胎龄推算</a></li>
+                <li><a href="#section7">双胎与多胎</a></li>
+                <li><a href="#summary">本章小结</a></li>
+            </ul>
+        </nav>
+
+        <!-- 第一节：生殖细胞和受精 -->
+        <section class="section-card" id="section1">
+            <h2 class="section-title">
+                <span class="section-number">1</span>
+                生殖细胞和受精
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🧪</span>
+                    生殖细胞
+                </h3>
+                <div class="content-text">
+                    <p>生殖细胞（germ cell）又称配子（gamete），包括<span class="key-term">精子</span>和<span class="key-term">卵子</span>。精子为单倍体细胞，核型为23,X或23,Y，它们具有定向运动的能力和使卵子受精的潜力，但是尚无释放顶体酶、穿过卵子周围放射冠和透明带的能力。</p>
+
+                    <div class="highlight-box">
+                        <div class="title">🔑 核心概念：精子获能（Capacitation）</div>
+                        <p>精子头的外表面被一层来自精液的糖蛋白覆盖，能阻止顶体酶释放。精子通过子宫和输卵管时，这些糖蛋白被去除，从而使精子获得了使卵子受精的能力，此现象称<span class="important">获能</span>。精子在女性生殖管道内的受精能力一般可维持24小时。</p>
+                    </div>
+
+                    <p>从卵巢排出的卵子处于<span class="key-term">第二次减数分裂的中期</span>，进入并停留在输卵管壶腹部。当与精子相遇，受到精子穿入其内的激发，卵子才完成第二次减数分裂。若未受精，则在排卵后12~24小时退化。</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔄</span>
+                    受精过程
+                </h3>
+                <div class="content-text">
+                    <p>受精（fertilization）指精子与卵子结合形成受精卵的过程，一般发生在<span class="important">输卵管壶腹部</span>。正常成年男性每次射出上亿个精子，其中300~500个最强壮的精子能通过鞭毛运动抵达输卵管壶腹部。虽然最终只有一个精子能与卵子结合，但其他精子的协助作用也必不可少。</p>
+
+                    <div class="flow-chart">
+                        <div class="flow-item">第一阶段<br><small>放射冠反应</small></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item">第二阶段<br><small>透明带反应</small></div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-item">第三阶段<br><small>精卵融合</small></div>
+                    </div>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>🎯 第一阶段：放射冠反应</h4>
+                            <p>大量获能的精子接触到卵子周围的放射冠时，即释放顶体酶，解离放射冠的卵泡细胞，这样部分精子可直接触及透明带。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🎯 第二阶段：透明带反应</h4>
+                            <p>接触到透明带的精子与透明带上的精子配体蛋白<span class="key-term">ZP3</span>结合，后者进一步介导顶体反应，使顶体继续释放顶体酶，在透明带中溶蚀出一条孔道，使精子头部接触到卵子表面。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🎯 第三阶段：精卵融合</h4>
+                            <p>精子头侧面细胞膜与卵子细胞膜融合，随即精子的细胞核及细胞质进入卵子内，精子与卵子的细胞膜融合为一体。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">🛡️ 透明带反应（Zona Reaction）- 防止多精受精</div>
+                        <p>精卵结合后，卵子浅层细胞质内的<span class="key-term">皮质颗粒</span>（cortical granule）立即释放溶酶体酶，使透明带结构发生变化，特别是使ZP3分子变性，不能再与精子结合，从而阻止了其他精子穿越透明带，这一过程称<span class="important">透明带反应</span>，保证了正常的单精受精。偶尔，也有两个精子同时进入卵子，但三倍体的胚胎或者中途流产，或者出生后夭亡。</p>
+                    </div>
+
+                    <p>与此同时，卵子迅速完成第二次减数分裂，并产生一个几乎没有细胞质的<span class="key-term">第二极体</span>。此时精子和卵子的细胞核膨大，分别称为<span class="key-term">雄原核</span>（male pronucleus）和<span class="key-term">雌原核</span>（female pronucleus）。两个原核逐渐在细胞中部靠拢，核膜消失，染色体混合，形成二倍体的<span class="important">受精卵</span>（fertilized ovum），又称<span class="key-term">合子</span>（zygote），受精过程到此完成。进入卵子的精子尾部结构退化消失。</p>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-1 受精过程示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-1 受精过程示意图</div>
+                <div class="img-desc">展示受精三个阶段：①第一阶段-放射冠反应；②第二阶段-透明带反应；③第三阶段-精卵融合</div>
+                <span class="img-source">图片来源：PDF教材第203页</span>
+            </div>
+
+            <!-- 图片占位：图21-2 排卵、受精与卵裂过程模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-2 排卵、受精与卵裂过程模式图</div>
+                <div class="img-desc">①排卵；②受精；③第一次卵裂；④2细胞期；⑤4细胞期；⑥桑葚胚；⑦胚泡</div>
+                <span class="img-source">图片来源：PDF教材第204页</span>
+            </div>
+
+            <!-- 图片占位：图21-3 卵裂和胚泡形成模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-3 卵裂和胚泡形成模式图</div>
+                <div class="img-desc">①雌原核与雄原核形成；②雌原核与雄原核靠近；③雌雄原核融合并开始卵裂；④2细胞期；⑤4细胞期；⑥8细胞期；⑦桑葚胚；⑧早期胚泡；⑨胚泡</div>
+                <span class="img-source">图片来源：PDF教材第204页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">⭐</span>
+                    受精的意义
+                </h3>
+                <div class="content-text">
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>1️⃣ 恢复二倍体核型</h4>
+                            <p>精子与卵子的结合，恢复了细胞的二倍体核型；同时，来自双亲的遗传物质随机组合，加之生殖细胞在减数分裂时曾发生染色体联合和片段交换，因此由受精卵发育而来的新个体既维持了双亲的遗传特点，又具有与亲代不完全相同的性状。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>2️⃣ 决定遗传性别</h4>
+                            <p>受精决定新个体的遗传性别。带有<span class="key-term">Y染色体</span>的精子与卵子结合，发育为男性；带有<span class="key-term">X染色体</span>的精子与卵子结合，发育为女性。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>3️⃣ 启动胚胎发育</h4>
+                            <p>精子进入卵子，使原本相对静止的卵子转入旺盛的能量代谢与生化合成，受精卵开始进行细胞分裂，启动了胚胎发育的进程。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">💡 临床应用：避孕原理</div>
+                        <p>发育正常并已获能的精子与发育正常的卵子在限定的时间相遇是受精的基本条件。应用<span class="key-term">避孕套</span>、<span class="key-term">子宫帽</span>、<span class="key-term">输卵管结扎</span>或<span class="key-term">输精管结扎</span>等措施，可阻止精子与卵子相遇，达到避孕目的。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二节：胚泡的形成和植入 -->
+        <section class="section-card" id="section2">
+            <h2 class="section-title">
+                <span class="section-number">2</span>
+                胚泡的形成和植入
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔬</span>
+                    卵裂和胚泡的形成
+                </h3>
+                <div class="content-text">
+                    <p>受精卵一旦形成，便开始向子宫方向移行，并进行细胞分裂。由于子细胞被透明带包裹，在分裂间期无生长过程，仅原受精卵的细胞质被不断分到子细胞中，因而随着细胞数目增加，细胞体积逐渐变小。受精卵的这种特殊的有丝分裂过程称<span class="key-term">卵裂</span>（cleavage），卵裂产生的子细胞称<span class="key-term">卵裂球</span>（blastomere）。</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time">第3天</div>
+                            <p>卵裂球数达<span class="important">12~16个</span>，共同组成一个实心胚，外观如桑葚，故称<span class="key-term">桑葚胚</span>（morula）。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">第4天</div>
+                            <p>桑葚胚进入子宫腔，其细胞继续分裂，当卵裂球数达到<span class="important">100个左右</span>时，细胞间出现若干小的腔隙，它们逐渐汇合成一个腔，腔内充满来自子宫腔内的液体。此时透明带溶解，胚呈囊泡状，故称<span class="key-term">胚泡</span>（blastocyst）。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">🏗️ 胚泡的结构</div>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-card">
+                                <h4>🫧 胚泡腔</h4>
+                                <p>胚泡中心为胚泡腔（blastocyst cavity），充满液体。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>🛡️ 滋养层</h4>
+                                <p>胚泡壁由单层细胞构成，与吸收营养有关，称滋养层（trophoblast）。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>🧬 内细胞群</h4>
+                                <p>位于胚泡腔内一侧的一群细胞，称内细胞群（inner cell mass），细胞具有多种分化潜能。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>⚡ 极端滋养层</h4>
+                                <p>位于内细胞群一端的滋养层称极端滋养层（polar trophoblast），与胚泡植入有关。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🏠</span>
+                    植入（Implantation）
+                </h3>
+                <div class="content-text">
+                    <p>胚泡进入子宫内膜的过程称<span class="key-term">植入</span>（implantation），又称<span class="key-term">着床</span>（nidation）。植入于受精后<span class="important">第5~6天开始，第11~12天完成</span>。</p>
+
+                    <div class="highlight-box">
+                        <div class="title">🔧 植入过程</div>
+                        <p>植入时，内细胞群一侧的<span class="important">极端滋养层</span>首先与子宫内膜上皮接触并黏附，分泌蛋白水解酶，在内膜溶蚀出一个缺口，然后胚泡陷入缺口，逐渐被包埋其中。在植入过程中，与内膜接触的滋养层细胞迅速增殖，滋养层增厚，并分化为内、外两层：</p>
+                        <div class="compare-box">
+                            <div class="compare-item left">
+                                <h4>🟢 合体滋养层</h4>
+                                <p>外层细胞互相融合，细胞间界线（即细胞膜）消失，称<span class="key-term">合体滋养层</span>（syncytiotrophoblast）。</p>
+                            </div>
+                            <div class="compare-item right">
+                                <h4>🔵 细胞滋养层</h4>
+                                <p>内层细胞界限清楚，由单层立方细胞组成，称<span class="key-term">细胞滋养层</span>（cytotrophoblast）。后者的细胞通过分裂使细胞数目不断增多，并补充、融入合体滋养层。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>胚泡全部植入子宫内膜后，缺口修复，植入完成。这时胚泡的整个滋养层均分化为两层，并迅速增厚。在合体滋养层内出现一些小的腔隙，称<span class="key-term">滋养层陷窝</span>（trophoblastic lacuna），不久与子宫内膜的小血管相通而充满母体血液。</p>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-4 猴胚泡附着于子宫内膜上皮光镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-4 猴胚泡附着于子宫内膜上皮光镜图</div>
+                <div class="img-desc">展示胚泡附着于子宫内膜上皮的显微结构</div>
+                <span class="img-source">图片来源：PDF教材第205页</span>
+            </div>
+
+            <!-- 图片占位：图21-5 胚泡正在穿过子宫内膜的模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-5 胚泡正在穿过子宫内膜的模式图</div>
+                <div class="img-desc">展示胚泡穿过子宫内膜的过程，标注子宫内膜上皮、子宫内膜基质、胚泡腔、滋养层细胞、内细胞群等结构</div>
+                <span class="img-source">图片来源：PDF教材第205页</span>
+            </div>
+
+            <!-- 图片占位：图21-6 胚泡植入子宫内膜过程模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-6 胚泡植入子宫内膜过程模式图</div>
+                <div class="img-desc">A.植入早期(第7天)；B.植入第8天；C.植入后期(第9天)；D.植入完成(第12天)。展示从植入到完成的完整过程</div>
+                <span class="img-source">图片来源：PDF教材第206页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔄</span>
+                    蜕膜反应
+                </h3>
+                <div class="content-text">
+                    <p>植入时的子宫内膜正处于分泌期，植入后内膜进一步增厚，血液供应更丰富，腺体分泌更旺盛，基质细胞变得十分肥大，富含糖原和脂滴。子宫内膜的这些变化称<span class="key-term">蜕膜反应</span>（decidua reaction），此时的子宫内膜改称<span class="important">蜕膜</span>（decidua），基质细胞改称蜕膜细胞。</p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>📍 基蜕膜</h4>
+                            <p><span class="key-term">基蜕膜</span>（decidua basalis）：位于胚与子宫肌层之间。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>📍 包蜕膜</h4>
+                            <p><span class="key-term">包蜕膜</span>（decidua capsularis）：覆盖在胚的子宫腔侧。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>📍 壁蜕膜</h4>
+                            <p><span class="key-term">壁蜕膜</span>（decidua parietalis）：是子宫壁其余部分的蜕膜。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-7 胚胎与子宫蜕膜的关系示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-7 胚胎与子宫蜕膜的关系示意图</div>
+                <div class="img-desc">展示基蜕膜、包蜕膜、壁蜕膜的位置关系，以及丛密绒毛膜、羊膜腔、胚外体腔、平滑绒毛膜等结构</div>
+                <span class="img-source">图片来源：PDF教材第206页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">⚠️</span>
+                    植入异常
+                </h3>
+                <div class="content-text">
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>🚨 前置胎盘</h4>
+                            <p>胚泡的植入部位通常在子宫的体部和底部，最多见于后壁。若植入位于近子宫颈处，在此形成的胎盘，称<span class="key-term">前置胎盘</span>（placenta praevia），自然分娩时堵塞产道，导致胎儿娩出困难，需行剖宫产。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🚨 异位妊娠</h4>
+                            <p>若植入在子宫以外部位，称<span class="key-term">异位妊娠</span>（ectopic pregnancy），常发生在输卵管，偶见于子宫阔韧带、肠系膜、子宫直肠陷窝，甚至卵巢表面。异位妊娠胚胎多因营养供应不足导致早期死亡，后被吸收；少数植入输卵管的胚胎发育较大后，引起输卵管破裂和大出血。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-8 异位妊娠示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-8 异位妊娠示意图</div>
+                <div class="img-desc">展示输卵管各部位（子宫部、峡部、壶腹部、漏斗部）以及卵巢、肠系膜等可能发生异位妊娠的位置</div>
+                <span class="img-source">图片来源：PDF教材第206页</span>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">📝 植入的调节因素</div>
+                <p>植入过程受母体<span class="key-term">雌激素</span>和<span class="key-term">孕激素</span>的精细调节，这些激素的正常分泌使子宫内膜保持在分泌期。若母体内分泌紊乱，子宫内膜的周期性变化与胚泡发育不同步，植入便不能完成。胚泡的植入还需要有正常的子宫腔内环境。子宫有炎症或有避孕环，均可阻碍胚泡植入。</p>
+            </div>
+        </section>
+
+        <!-- 第三节：胚层的形成 -->
+        <section class="section-card" id="section3">
+            <h2 class="section-title">
+                <span class="section-number">3</span>
+                胚层的形成
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔵</span>
+                    二胚层胚盘及其结构的形成
+                </h3>
+                <div class="content-text">
+                    <p>在第2周胚泡植入过程中，内细胞群增殖分化，逐渐形成圆盘状的<span class="key-term">胚盘</span>（embryonic disc），由两个胚层组成，也称<span class="important">二胚层胚盘</span>。邻近滋养层的一层柱状细胞为<span class="key-term">上胚层</span>（epiblast），靠近胚泡腔侧的一层立方细胞为<span class="key-term">下胚层</span>（hypoblast）。两个胚层紧贴，中间隔以基膜。<span class="important">胚盘是人体发生的原基。</span></p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>💧 羊膜腔</h4>
+                            <p>由于上胚层细胞增殖，其内出现一个充满液体的小腔隙，称<span class="key-term">羊膜腔</span>（amniotic cavity），腔内液体为羊水。贴靠细胞滋养层的一层上胚层细胞形状扁平，称<span class="key-term">成羊膜细胞</span>，它们形成最早的羊膜，并与上胚层的其余部分共同包裹羊膜腔，其所形成的囊称<span class="key-term">羊膜囊</span>。上胚层构成羊膜囊的底。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🟡 卵黄囊</h4>
+                            <p>下胚层周缘的细胞向腹侧生长延伸，形成由单层扁平上皮细胞围成的另一个囊，即<span class="key-term">卵黄囊</span>（yolk sac）。下胚层构成卵黄囊的顶。羊膜囊和卵黄囊对胚盘起保护和营养作用。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🟣 胚外中胚层</h4>
+                            <p>此时胚泡腔内出现松散分布的星状细胞和细胞外基质，充填于细胞滋养层和卵黄囊、羊膜囊之间，形成<span class="key-term">胚外中胚层</span>（extraembryonic mesoderm）。继而胚外中胚层细胞间出现腔隙，腔隙逐渐汇合增大，在胚外中胚层内形成一个大腔，称<span class="key-term">胚外体腔</span>。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🔗 体蒂</h4>
+                            <p>随着胚外体腔的扩大，二胚层胚盘和其背腹两侧的羊膜囊、卵黄囊仅由少部分胚外中胚层与滋养层直接相连，这部分胚外中胚层称<span class="key-term">体蒂</span>（body stalk）。体蒂将发育为脐带的主要成分。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-9 二胚层胚盘(鸡胚)光镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-9 二胚层胚盘(鸡胚)光镜图</div>
+                <div class="img-desc">展示二胚层胚盘的显微结构</div>
+                <span class="img-source">图片来源：PDF教材第207页</span>
+            </div>
+
+            <!-- 图片占位：图21-10 第3周初胚的立体模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-10 第3周初胚的立体模式图</div>
+                <div class="img-desc">展示羊膜、羊膜腔、胚盘、卵黄囊、胚外体腔、绒毛、胚外体壁中胚层、胚外脏壁中胚层等结构的空间关系</div>
+                <span class="img-source">图片来源：PDF教材第207页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🟢🟡🔴</span>
+                    三胚层胚盘及其结构的形成
+                </h3>
+                <div class="content-text">
+                    <p>第3周初，上胚层部分细胞增殖较快，并向胚盘一端中线迁移，在中轴线上聚集形成一条纵行的细胞柱，称<span class="key-term">原条</span>（primitive streak）。原条的头端略膨大，为<span class="key-term">原结</span>（primitive node）。继而在原条的中线出现浅沟，原结的中心出现浅凹，分别称<span class="key-term">原沟</span>（primitive groove）和<span class="key-term">原凹</span>（primitive pit）。</p>
+
+                    <div class="highlight-box">
+                        <div class="title">🧬 三胚层的形成过程</div>
+                        <p>原沟深部的细胞不断增殖，并在上、下胚层之间向周边扩展迁移：</p>
+                        <div class="flow-chart">
+                            <div class="flow-item">原条细胞增殖迁移</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-item">部分形成胚内中胚层</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-item">部分置换下胚层形成内胚层</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-item">上胚层改名外胚层</div>
+                        </div>
+                        <p style="margin-top:15px">一部分细胞在上、下两胚层之间形成一个夹层，称<span class="key-term">胚内中胚层</span>，即<span class="important">中胚层</span>（mesoderm），它在胚盘边缘与胚外中胚层衔接。另一部分细胞进入下胚层，并逐渐全部置换了下胚层的细胞，形成一层新的细胞，称<span class="key-term">内胚层</span>（endoderm）。在内胚层和中胚层出现之后，原上胚层改称<span class="key-term">外胚层</span>（ectoderm）。于是在第3周末，<span class="important">三胚层胚盘形成，3个胚层均起源于上胚层。</span></p>
+                    </div>
+
+                    <p>原条的出现使胚盘有头、尾端之分，<span class="important">原条所在的一端为尾端</span>。由于头端大，尾端小，此时的胚盘呈梨形。从原凹向头端增生迁移的细胞，在内、外胚层之间形成一条单独的中胚层细胞索，称<span class="key-term">脊索</span>（notochord），它在早期胚胎起一定的支持和诱导作用。</p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>👄 口咽膜</h4>
+                            <p>在脊索的头侧和原条的尾侧，各有一个无中胚层的小区，此处内、外胚层相贴，呈薄膜状，分别称<span class="key-term">口咽膜</span>（oropharyngeal membrane）和<span class="key-term">泄殖腔膜</span>（cloacal membrane）。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🍑 泄殖腔膜</h4>
+                            <p>位于原条尾侧的无中胚层小区，内、外胚层相贴形成的薄膜。</p>
+                        </div>
+                    </div>
+
+                    <p>随着胚体发育，脊索向头端生长、延长，原条相对缩短，最终消失。若原条细胞残留，在未来人体骶尾部可增殖分化，形成由多种组织构成的<span class="key-term">畸胎瘤</span>（teratoma）。</p>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-11 第16天的胚盘示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-11 第16天的胚盘示意图</div>
+                <div class="img-desc">A.胚盘背面观；B.中胚层和脊索的形成(上胚层被去除)；C.通过原条的胚盘横切面,示中胚层形成</div>
+                <span class="img-source">图片来源：PDF教材第207-208页</span>
+            </div>
+
+            <!-- 图片占位：图21-12 第18天的胚盘示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-12 第18天的胚盘示意图</div>
+                <div class="img-desc">A.背面观；B.胚盘横切面；C.胚盘中轴纵切面。展示中胚层和脊索形成</div>
+                <span class="img-source">图片来源：PDF教材第208页</span>
+            </div>
+
+            <!-- 图片占位：图21-13 婴儿骶尾部的畸胎瘤 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-13 婴儿骶尾部的畸胎瘤</div>
+                <div class="img-desc">展示由原条细胞残留导致的畸胎瘤病例</div>
+                <span class="img-source">图片来源：PDF教材第208页</span>
+            </div>
+        </section>
+
+        <!-- 第四节：三胚层的分化和胚体的形成 -->
+        <section class="section-card" id="section4">
+            <h2 class="section-title">
+                <span class="section-number">4</span>
+                三胚层的分化和胚体的形成
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🧬</span>
+                    三胚层的分化（第4~8周）
+                </h3>
+                <div class="content-text">
+                    <p>第4~8周，3个胚层逐渐分化形成各种器官的原基。</p>
+
+                    <div class="highlight-box">
+                        <div class="title">🔵 外胚层的分化</div>
+                        <p>脊索形成后，诱导其背侧中线的外胚层增厚呈板状，称<span class="key-term">神经板</span>（neural plate）。构成神经板的这部分外胚层也称<span class="key-term">神经外胚层</span>（neural ectoderm），而其余部分常称<span class="key-term">表面外胚层</span>。</p>
+
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="time">神经板 → 神经沟</div>
+                                <p>神经板随脊索的生长而增长，且头侧宽于尾侧。继而神经板中央沿长轴向脊索方向凹陷，形成<span class="key-term">神经沟</span>（neural groove），沟两侧边缘隆起称<span class="key-term">神经褶</span>（neural fold）。</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">神经沟 → 神经管</div>
+                                <p>两侧神经褶在神经沟中段靠拢而融合，并向头尾两端进展，最后在头尾两端各有一开口，分别称<span class="key-term">前神经孔</span>和<span class="key-term">后神经孔</span>，它们在第4周闭合，使神经沟完全闭合为<span class="key-term">神经管</span>（neural tube）。</p>
+                            </div>
+                        </div>
+
+                        <p style="margin-top:15px">神经管两侧的表面外胚层在管的背侧靠拢并融合，使神经管位居于表面外胚层的深面。神经管是<span class="important">中枢神经系统的原基</span>，将分化为脑和脊髓以及松果体、神经垂体和视网膜等。如果前、后神经孔未闭合，将会分别导致<span class="important">无脑畸形</span>和<span class="important">脊髓裂</span>。</p>
+
+                        <div class="knowledge-grid">
+                            <div class="knowledge-card">
+                                <h4>🧠 神经嵴</h4>
+                                <p>在神经沟闭合为神经管的过程中，神经板外侧缘的细胞也随之进入神经管壁的背侧，并很快从管壁迁移出来，形成位于神经管背外侧的两条纵行细胞索，称<span class="key-term">神经嵴</span>（neural crest）。神经嵴是<span class="important">周围神经系统的原基</span>，将分化为脑神经节、脊神经节、自主神经节及周围神经；部分细胞还迁入肾上腺原基，分化为髓质嗜铬细胞。另外，部分神经嵴细胞迁入表皮，分化为黑素细胞；在头端的神经嵴细胞还参与颅面部骨骼和结缔组织的形成。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>🌟 表面外胚层分化</h4>
+                                <p>表面外胚层将分化为皮肤的表皮及其附属器，以及牙釉质、角膜上皮、晶状体、内耳膜迷路、腺垂体、唾液腺、口腔、鼻腔及肛管下段的上皮等。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-14 中胚层早期分化与神经管形成示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-14 中胚层早期分化与神经管形成示意图</div>
+                <div class="img-desc">A.第17天；B.第19天；C.第20天；D.第21天。展示神经板、神经沟、神经管的形成过程，以及中胚层的分化</div>
+                <span class="img-source">图片来源：PDF教材第209页</span>
+            </div>
+
+            <!-- 图片占位：图21-15 三胚层(鸡胚)分化光镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-15 三胚层(鸡胚)分化光镜图</div>
+                <div class="img-desc">A.三胚层胚盘与神经沟；B.三胚层胚盘与神经管</div>
+                <span class="img-source">图片来源：PDF教材第209页</span>
+            </div>
+
+            <!-- 图片占位：图21-16 鸡胚(背面观)光镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-16 鸡胚(背面观)光镜图(胭脂红染色)</div>
+                <div class="img-desc">示神经管和体节</div>
+                <span class="img-source">图片来源：PDF教材第209页</span>
+            </div>
+
+            <!-- 图片占位：图21-17 神经管形成的立体模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-17 神经管形成的立体模式图</div>
+                <div class="img-desc">A.第22天；B.第23天。展示神经褶、神经管、体节、心包膨大、前神经孔、后神经孔等结构</div>
+                <span class="img-source">图片来源：PDF教材第210页</span>
+            </div>
+
+            <!-- 图片占位：图21-18 神经嵴的发生和细胞迁移模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-18 神经嵴的发生和细胞迁移模式图</div>
+                <div class="img-desc">A.神经嵴细胞在神经褶处形成；B.神经管闭合后神经嵴细胞开始迁移；C.神经嵴分化为不同的结构（背根神经节、交感神经节、肠神经节、肾上腺髓质等）</div>
+                <span class="img-source">图片来源：PDF教材第210页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🟡</span>
+                    中胚层的分化
+                </h3>
+                <div class="content-text">
+                    <p>脊索两旁的中胚层细胞增殖较快，由内向外依次分化为<span class="key-term">轴旁中胚层</span>、<span class="key-term">间介中胚层</span>和<span class="key-term">侧中胚层</span>。中胚层的细胞通常先形成间充质，然后分化为各种结缔组织、肌组织和血管等。</p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>📊 轴旁中胚层 → 体节</h4>
+                            <p>紧邻脊索两侧的中胚层细胞迅速增殖，形成一对纵行的细胞索，即轴旁中胚层（paraxial mesoderm）。它随即裂为块状细胞团，称<span class="key-term">体节</span>（somite）。体节左右成对，从颈部向尾部依次形成，并逐渐增多。第5周时，体节全部形成，共<span class="important">42~44对</span>。体节将主要分化为背侧的皮肤真皮、骨骼肌和中轴骨骼（如脊柱）。脊索的大部分将退化消失，仅在脊柱的椎间盘内残留为<span class="key-term">髓核</span>。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🫘 间介中胚层</h4>
+                            <p>位于轴旁中胚层与侧中胚层之间，分化为<span class="important">泌尿生殖系统</span>的主要器官。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🌊 侧中胚层</h4>
+                            <p>是中胚层最外侧的部分。其内部先出现一些小的腔隙，然后融合为一个大的<span class="key-term">胚内体腔</span>（intraembryonic coelom），并与胚外体腔相通，侧中胚层便分为两层：</p>
+                            <ul style="margin-top:10px; padding-left:20px;">
+                                <li><span class="key-term">体壁中胚层</span>（parietal mesoderm）：与外胚层相贴，将主要分化为胸腹部和四肢的皮肤真皮、骨骼肌、骨骼和血管等。</li>
+                                <li><span class="key-term">脏壁中胚层</span>（visceral mesoderm）：与内胚层相贴，覆盖于由内胚层演化形成的原始消化管外面，将分化为消化、呼吸系统的肌组织、血管、结缔组织和间皮等。</li>
+                            </ul>
+                            <p style="margin-top:10px">胚内体腔从头端到尾端将分化为<span class="important">心包腔、胸膜腔和腹膜腔</span>。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔴</span>
+                    内胚层的分化
+                </h3>
+                <div class="content-text">
+                    <p>内胚层被包入胚体形成<span class="key-term">原始消化管</span>（primitive digestive tube），将分化为咽喉及其以下的消化管、消化腺、呼吸道和肺的上皮组织，以及中耳、甲状腺、甲状旁腺、胸腺、膀胱等器官的上皮组织。</p>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-19 胚体外形和内部结构的演变模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-19 胚体外形和内部结构的演变模式图</div>
+                <div class="img-desc">展示第20天至第28天人胚的背面观、侧面观及相应纵切面和横切面的演变过程</div>
+                <span class="img-source">图片来源：PDF教材第211页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">👶</span>
+                    胚体的形成
+                </h3>
+                <div class="content-text">
+                    <p>伴随三胚层的分化，胚盘边缘向腹侧卷折形成<span class="key-term">头褶</span>、<span class="key-term">尾褶</span>和<span class="key-term">左右侧褶</span>，扁平形胚盘逐渐变为圆柱形的胚体。胚盘卷折主要是因其各部分生长速度的差异所致。</p>
+
+                    <div class="highlight-box">
+                        <div class="title">📐 胚体卷折的机制</div>
+                        <p>胚盘中轴部由于神经管和体节的生长而向背侧隆起，又由于外胚层的生长速度快于内胚层，这样导致了侧褶，使外胚层包于胚体外表，内胚层被卷到胚体内部。胚体头尾方向的生长速度快于左右侧向的生长；头端由于脑和颜面器官的发生，故其生长速度又快于尾端，因而胚盘卷折为头大尾小的圆柱形胚体，胚盘边缘则卷折到胚体腹侧，并逐渐靠拢，最终在胚体成脐处会聚。</p>
+                    </div>
+
+                    <p>圆柱形胚体形成的结果是：</p>
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>🌊 胚体凸入羊膜腔</h4>
+                            <p>胚体凸入羊膜腔，浸泡于羊水中。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🔗 脐带形成</h4>
+                            <p>体蒂和卵黄囊于胚体腹侧中心合并，外包羊膜，形成<span class="key-term">脐带</span>。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>👄 膜的位置变化</h4>
+                            <p>口咽膜和泄殖腔膜分别转到胚体头和尾的腹侧。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🧅 原始消化管形成</h4>
+                            <p>外胚层包于胚体外表；内胚层卷折到胚体内部，形成头尾方向的原始消化管，其中段的腹侧与卵黄囊相通，二者相连的一段卵黄囊相对狭窄，称<span class="key-term">卵黄蒂</span>，头端由口咽膜封闭，尾端由泄殖腔膜封闭。</p>
+                        </div>
+                    </div>
+
+                    <p>至第8周末，胚体外表已可见眼、耳、鼻及四肢，<span class="important">初具人形</span>。</p>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-20 第5~8周胚体外形的演变模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-20 第5~8周胚体外形的演变模式图</div>
+                <div class="img-desc">A.第33天；B.第48天；C.第52天；D.第56天。展示眼、耳、鼻、四肢等结构的发育过程</div>
+                <span class="img-source">图片来源：PDF教材第212页</span>
+            </div>
+
+            <!-- 图片占位：图21-21 第5周人胚扫描电镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-21 第5周人胚扫描电镜图</div>
+                <div class="img-desc">1.鳃弓；2.心隆起；3.上肢芽；4.体节；5.下肢芽</div>
+                <span class="img-source">图片来源：PDF教材第212页</span>
+            </div>
+        </section>
+
+        <!-- 第五节：胎膜和胎盘 -->
+        <section class="section-card" id="section5">
+            <h2 class="section-title">
+                <span class="section-number">5</span>
+                胎膜和胎盘
+            </h2>
+
+            <div class="content-text">
+                <p>胎膜和胎盘是对胚胎起保护、营养、呼吸、排泄等作用的附属结构，<span class="important">不参与胚胎本体的形成</span>。有的结构还有内分泌功能。胎儿娩出后，胎膜、胎盘即与子宫壁分离，并被排出体外，总称<span class="key-term">衣胞</span>（afterbirth）。</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🛡️</span>
+                    胎膜（Fetal Membrane）
+                </h3>
+                <div class="content-text">
+                    <p>胎膜包括<span class="key-term">绒毛膜</span>、<span class="key-term">羊膜</span>、<span class="key-term">卵黄囊</span>、<span class="key-term">尿囊</span>和<span class="key-term">脐带</span>。</p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>🌿 绒毛膜（Chorion）</h4>
+                            <p>由绒毛膜板、各级绒毛干及绒毛组成。滋养层和衬于其内面的胚外中胚层组成<span class="key-term">绒毛膜板</span>（chorionic plate），在其基础上形成各级绒毛干及绒毛。</p>
+                            <div style="margin-top:10px; padding:10px; background:#e8eaf6; border-radius:8px;">
+                                <p><strong>绒毛干的分化：</strong></p>
+                                <p>• <span class="key-term">初级绒毛干</span>：细胞滋养层伸入合体滋养层内形成</p>
+                                <p>• <span class="key-term">次级绒毛干</span>：胚外中胚层伸入绒毛干内</p>
+                                <p>• <span class="key-term">三级绒毛干</span>：绒毛干里的胚外中胚层间充质分化为结缔组织和血管，并与胚体内的血管相通</p>
+                            </div>
+                            <p style="margin-top:10px">绒毛干末端的细胞滋养层细胞增殖，穿出合体滋养层，伸抵子宫蜕膜组织，将绒毛干固着于蜕膜上。这些穿出的细胞滋养层细胞还沿蜕膜扩展，彼此连接，在蜕膜表面形成一层<span class="key-term">细胞滋养层壳</span>，使绒毛膜与子宫蜕膜牢固连接。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>💧 羊膜（Amnion）</h4>
+                            <p>为半透明薄膜，由一层羊膜上皮和少量胚外中胚层构成，内无血管。羊膜腔内充满<span class="key-term">羊水</span>（amniotic fluid），胚胎浸泡在羊水中。</p>
+                            <p style="margin-top:10px"><strong>羊水的变化：</strong></p>
+                            <p>妊娠早期的羊水呈无色透明状，由羊膜不断分泌和吸收。妊娠中期以后，胎儿开始吞咽羊水，其消化系统、泌尿系统的排泄物及脱落的上皮细胞也进入羊水，使羊水变得浑浊。</p>
+                            <p style="margin-top:10px"><strong>羊水的功能：</strong></p>
+                            <p>• 胚胎在羊水中可较自由地活动，有利于骨骼和肌肉发育</p>
+                            <p>• 防止胚胎局部粘连或受外力的压迫与震荡</p>
+                            <p>• 临产时扩张宫颈与冲洗产道</p>
+                            <p style="margin-top:10px"><strong>羊水量：</strong>足月分娩时有1000~1500ml。羊水过少（300ml以下）易发生羊膜与胎儿粘连；羊水过多（2000ml以上）也可影响胎儿正常发育。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🟡 卵黄囊</h4>
+                            <p>位于原始消化管腹侧。鸟类等卵生动物胚胎的卵黄囊贮有大量卵黄，为胚胎发育提供营养。胎生动物（包括人）胚胎的卵黄囊内没有卵黄，其出现也是种系发生和进化过程的重演。人胚胎卵黄囊被包入脐带后，与原始消化管相连的部分相对狭窄，称<span class="key-term">卵黄蒂</span>。卵黄蒂于第6周闭锁，卵黄囊逐渐退化。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>💙 尿囊（Allantois）</h4>
+                            <p>是从卵黄囊尾侧向体蒂内伸出的一个盲管，随着胚体尾端的卷折而开口于原始消化管尾段的腹侧。当从后者演化出膀胱时，尿囊成为从膀胱顶部至脐内的一条细管，称<span class="key-term">脐尿管</span>。脐尿管将闭锁，成为<span class="key-term">脐中韧带</span>。尿囊壁的胚外中胚层形成的尿囊动脉和尿囊静脉，分别演变为脐带内的<span class="important">脐动脉和脐静脉</span>。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🔗 脐带（Umbilical Cord）</h4>
+                            <p>是连于胚胎脐部与胎盘间的索状结构。脐带外覆羊膜，内含黏液性结缔组织。结缔组织内除有闭锁的卵黄囊和脐尿管外，还有脐动脉和脐静脉。脐血管连接胚胎血管和胎盘绒毛血管。</p>
+                            <p style="margin-top:10px"><strong>脐血管特点：</strong></p>
+                            <p>• <span class="key-term">脐动脉</span>：有两条，因其长于脐带，故呈螺旋状走行。将胚胎血液运送至胎盘绒毛血管，与绒毛间隙内的母体血进行物质交换。</p>
+                            <p>• <span class="key-term">脐静脉</span>：仅有一条，将吸收了丰富营养物质和氧的血液送回胚胎。</p>
+                            <p style="margin-top:10px"><strong>脐带参数：</strong>胎儿出生时，脐带长40~60cm，粗1.5~2cm。脐带过短易引起胎盘过早剥离；脐带过长易缠绕胎儿四肢或颈部。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">🌿 绒毛膜的演变</div>
+                        <p>胚胎早期，整个绒毛膜表面的绒毛均匀分布。之后，由于包蜕膜侧的血供匮乏，绒毛逐渐退化、消失，形成表面无绒毛的<span class="key-term">平滑绒毛膜</span>（chorion leave）。基蜕膜侧的血供充足，该处绒毛反复分支，生长茂密，称<span class="key-term">丛密绒毛膜</span>（chorion frondosum），与基蜕膜一起组成胎盘。此后，随着胚胎的发育增长及羊膜腔的不断扩大，羊膜、平滑绒毛膜和包蜕膜进一步凸向子宫腔，最终与壁蜕膜融合，子宫腔消失。</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">⚠️ 绒毛膜发育异常</div>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-card">
+                                <h4>🍇 葡萄胎/水泡状胎块</h4>
+                                <p>若滋养层细胞过度增生，绒毛内结缔组织变性水肿，血管消失，胚胎发育受阻，绒毛呈葡萄或水泡状，称<span class="key-term">葡萄胎</span>或<span class="key-term">水泡状胎块</span>。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>☠️ 绒毛膜癌</h4>
+                                <p>若滋养层细胞癌变，则称<span class="key-term">绒毛膜癌</span>。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-22 胎膜演变示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-22 胎膜演变示意图</div>
+                <div class="img-desc">A.第3周；B.第5周；C.第10周；D.第20周。展示胎膜从早期到后期的演变过程</div>
+                <span class="img-source">图片来源：PDF教材第213页</span>
+            </div>
+
+            <!-- 图片占位：图21-23 绒毛干的分化发育模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-23 绒毛干的分化发育模式图</div>
+                <div class="img-desc">A.初级绒毛干；B.次级绒毛干；C.三级绒毛干。上排图为绒毛干纵切面,下排图为横切面</div>
+                <span class="img-source">图片来源：PDF教材第213页</span>
+            </div>
+
+            <!-- 图片占位：图21-24 胎盘绒毛光镜图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-24 胎盘绒毛光镜图</div>
+                <div class="img-desc">A.早期；B.晚期。1.绒毛干；2.绒毛；3.绒毛间隙</div>
+                <span class="img-source">图片来源：PDF教材第213页</span>
+            </div>
+
+            <!-- 图片占位：图21-25 胎膜、蜕膜与胎盘模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-25 胎膜、蜕膜与胎盘模式图</div>
+                <div class="img-desc">A.第2个月；B.胎儿后期。展示羊膜、平滑绒毛膜、包蜕膜、壁蜕膜、丛密绒毛膜等的演变</div>
+                <span class="img-source">图片来源：PDF教材第214页</span>
+            </div>
+
+            <!-- 图片占位：图21-26 胚胎与胎盘模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-26 胚胎与胎盘模式图</div>
+                <div class="img-desc">A.第7周；B.第4个月。展示胚胎、胎盘、脐带、羊膜腔等结构的空间关系</div>
+                <span class="img-source">图片来源：PDF教材第214页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🫀</span>
+                    胎盘（Placenta）
+                </h3>
+                <div class="content-text">
+                    <div class="highlight-box">
+                        <div class="title">🏗️ 胎盘的结构</div>
+                        <p>胎盘是由胎儿的<span class="key-term">丛密绒毛膜</span>与母体的<span class="key-term">基蜕膜</span>共同组成的圆盘形结构。足月胎儿的胎盘重约500g，直径15~20cm，中央厚，周边薄，平均厚约2.5cm。</p>
+                        <div class="compare-box">
+                            <div class="compare-item left">
+                                <h4>👶 胎儿面</h4>
+                                <p>光滑，覆有羊膜，脐带附于中央或稍偏，透过羊膜可见呈放射状走行的脐血管分支。</p>
+                            </div>
+                            <div class="compare-item right">
+                                <h4>👩 母体面</h4>
+                                <p>粗糙，为剥脱后的基蜕膜，可见15~30个由浅沟分隔的<span class="key-term">胎盘小叶</span>（cotyledon）。</p>
+                            </div>
+                        </div>
+                        <p style="margin-top:15px">在胎盘垂直切面上，可见羊膜下方为绒毛膜的结缔组织，脐血管的分支走行其中。绒毛膜板发出40~60根绒毛干，绒毛干又发出许多细小绒毛，绒毛干的末端以细胞滋养层壳固着于基蜕膜。脐血管的分支沿绒毛干进入绒毛内，形成毛细血管。绒毛干之间为<span class="key-term">绒毛间隙</span>，有基蜕膜构成的短隔伸入其内，称<span class="key-term">胎盘隔</span>（placental septum）。胎盘隔将胎盘分隔为15~30个胎盘小叶，每个小叶含1~4根绒毛干及其分支。子宫螺旋动脉与子宫静脉的分支开口于绒毛间隙，故绒毛间隙内充满母体血液，绒毛浸泡其中。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-27 胎盘 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-27 胎盘</div>
+                <div class="img-desc">A.胎儿面；B.母体面。1.脐带；2.胎盘小叶；3.羊膜</div>
+                <span class="img-source">图片来源：PDF教材第215页</span>
+            </div>
+
+            <!-- 图片占位：图21-28 胎盘模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-28 胎盘模式图</div>
+                <div class="img-desc">A.羊膜面观；B.子宫蜕膜面观。展示胎盘小叶、绒毛膜板、绒毛膜血管等结构</div>
+                <span class="img-source">图片来源：PDF教材第216页</span>
+            </div>
+
+            <!-- 图片占位：图21-29 胎盘的结构与血液循环模式图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-29 胎盘的结构与血液循环模式图</div>
+                <div class="img-desc">展示胎血循环（脐动脉、脐静脉）、母体血液循环（子宫螺旋动脉、子宫静脉）、胎盘屏障、绒毛间隙等结构及血流方向</div>
+                <span class="img-source">图片来源：PDF教材第216页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔄</span>
+                    胎盘的血液循环和胎盘屏障
+                </h3>
+                <div class="content-text">
+                    <p>胎盘内有母体和胎儿两套血液循环系统。<span class="important">母体和胎儿的血液在各自的封闭管道内循环，互不相混，但可进行物质交换。</span></p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>👩 母体血液循环</h4>
+                            <p>母体动脉血从<span class="key-term">子宫螺旋动脉</span>流入绒毛间隙，在此与绒毛内毛细血管的胎儿血进行物质交换后，再经<span class="key-term">子宫静脉</span>流回母体。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>👶 胎儿血液循环</h4>
+                            <p>胎儿静脉性质的血经<span class="key-term">脐动脉</span>及其分支流入绒毛内毛细血管，与绒毛间隙内的母体血进行物质交换，从而成为动脉性质的血，后经<span class="key-term">脐静脉</span>回流到胎儿。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">🛡️ 胎盘屏障（Placental Barrier）</div>
+                        <p>胎儿血与母体血在胎盘内进行物质交换所通过的结构，称<span class="key-term">胎盘屏障</span>（placental barrier）或<span class="key-term">胎盘膜</span>（placental membrane）。</p>
+                        <p style="margin-top:10px"><strong>早期胎盘膜组成：</strong>合体滋养层、细胞滋养层和基膜、薄层绒毛结缔组织及毛细血管基膜和内皮。</p>
+                        <p style="margin-top:10px"><strong>发育后期变化：</strong>由于细胞滋养层在许多部位消失，以及合体滋养层在一些部位仅为一薄层细胞质，故胎盘屏障变薄，胎儿血与母体血间仅隔以绒毛毛细血管内皮和薄层合体滋养层及两者的基膜，更有利于物质交换。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">⚡</span>
+                    胎盘的功能
+                </h3>
+                <div class="content-text">
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>🍎 物质交换</h4>
+                            <p>胎儿通过胎盘从母体血中获得营养物质和O₂，排出代谢产物和CO₂。因此胎盘具有相当于成体的<span class="important">小肠、肺和肾</span>的功能。母体血中的免疫球蛋白G可通过胎盘膜进入胎儿，使胎儿及新生儿具备一定的免疫力。由于某些药物、病毒和激素可以通过胎盘膜，影响胎儿发育，故孕妇用药需慎重，并应预防感染。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>🧪 内分泌功能</h4>
+                            <p>胎盘的合体滋养层能分泌数种激素，对维持妊娠起重要作用：</p>
+                            <div style="margin-top:10px; padding:10px; background:#fff3e0; border-radius:8px;">
+                                <p>• <span class="key-term">人绒毛膜促性腺激素（hCG）</span>：作用类似黄体生成素，能促进母体黄体的生长发育，以维持妊娠。hCG在妊娠第2周开始分泌，第8周达高峰，以后逐渐下降。hCG可经孕妇尿液检出，因此可用来<span class="important">检测早孕</span>。</p>
+                                <p style="margin-top:8px">• <span class="key-term">人胎盘催乳素</span>：既能促使母体乳腺生长发育，又可促进胎儿的生长发育。于妊娠第2个月开始分泌，第8个月达高峰，直到分娩。</p>
+                                <p style="margin-top:8px">• <span class="key-term">孕激素和雌激素</span>：于妊娠第4个月开始分泌，以后逐渐增多。母体的卵巢黄体退化后，胎盘的这两种激素起着继续维持妊娠的作用。高水平的雌激素和孕激素具有免疫抑制作用，据认为这是母体免疫系统不会排斥具有抗原性的胚胎的重要原因。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第六节：胚胎各期外形特征和胚胎龄的推算 -->
+        <section class="section-card" id="section6">
+            <h2 class="section-title">
+                <span class="section-number">6</span>
+                胚胎各期外形特征和胚胎龄的推算
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">📅</span>
+                    胚胎龄的推算方法
+                </h3>
+                <div class="content-text">
+                    <div class="compare-box">
+                        <div class="compare-item left">
+                            <h4>📆 月经龄（临床常用）</h4>
+                            <p>从孕妇<span class="important">末次月经的第1天</span>算起，至胎儿娩出共约<span class="important">40周</span>。但由于妇女的月经周期常受环境变化的影响，故胚胎龄的推算难免有误差。</p>
+                        </div>
+                        <div class="compare-item right">
+                            <h4>🔬 受精龄（胚胎学常用）</h4>
+                            <p>以<span class="important">受精之日</span>为起点推算胚胎龄。受精一般发生在末次月经第1天之后的2周左右，故从受精到胎儿娩出约经<span class="important">38周</span>。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">📏 胚胎长度的测量标准</div>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-card">
+                                <h4>📐 最长值（GL）</h4>
+                                <p>Greatest Length，多用于测量第1~3周的胚。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>📐 顶臀长（CRL）</h4>
+                                <p>Crown-Rump Length，又称坐高，用于测量第4周及以后的胚胎。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>📐 顶跟长（CHL）</h4>
+                                <p>Crown-Heel Length，又称立高，常用于测量胎儿。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">📊</span>
+                    胚的外形特征与长度（表21-1）
+                </h3>
+                <div class="content-text">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>胚龄/周</th>
+                                <th>外形特征</th>
+                                <th>长度/mm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1</strong></td>
+                                <td>受精、卵裂，胚泡形成，开始植入</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2</strong></td>
+                                <td>圆形二胚层胚盘，植入完成，绒毛膜形成</td>
+                                <td>0.1～0.4（GL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3</strong></td>
+                                <td>梨形三胚层胚盘，神经板和神经褶出现，体节初现</td>
+                                <td>0.5～1.5（GL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4</strong></td>
+                                <td>胚体渐形成，神经管形成，体节3～29对，鳃弓1～2对，眼鼻耳原基初现，脐带与胎盘形成</td>
+                                <td>1.5～5.0（CRL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5</strong></td>
+                                <td>胚体屈向腹侧，鳃弓5对，肢芽出现，手板明显，体节30～44对</td>
+                                <td>4～8（CRL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>6</strong></td>
+                                <td>肢芽分为两节，足板明显，视网膜出现色素，耳郭突出现</td>
+                                <td>7～12（CRL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>7</strong></td>
+                                <td>手足板相继出现指趾初形，体节不见，颜面形成，乳腺嵴出现</td>
+                                <td>10～21（CRL）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>8</strong></td>
+                                <td>手指足趾明显，指趾出现分节，眼睑出现，尿生殖膜和肛膜先后破裂，外阴可见，性别不分，脐疝明显</td>
+                                <td>19～35（CRL）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">📈</span>
+                    胎儿外形主要特征及身长、足长与体重（表21-2）
+                </h3>
+                <div class="content-text">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>胎龄/周</th>
+                                <th>外形特征</th>
+                                <th>身长(CRL)/mm</th>
+                                <th>足长/mm</th>
+                                <th>体重/g</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>9</strong></td><td>眼睑闭合，外阴性别不可辨</td><td>50</td><td>7</td><td>8</td></tr>
+                            <tr><td><strong>10</strong></td><td>肠袢退回腹腔，指甲开始发生，眼睑闭合</td><td>61</td><td>9</td><td>14</td></tr>
+                            <tr><td><strong>12</strong></td><td>外阴可辨性别，颈明显</td><td>87</td><td>14</td><td>45</td></tr>
+                            <tr><td><strong>14</strong></td><td>头竖直，下肢发育好，趾甲开始发生</td><td>120</td><td>20</td><td>110</td></tr>
+                            <tr><td><strong>16</strong></td><td>耳竖起</td><td>140</td><td>27</td><td>200</td></tr>
+                            <tr><td><strong>18</strong></td><td>胎脂出现</td><td>160</td><td>33</td><td>320</td></tr>
+                            <tr><td><strong>20</strong></td><td>头与躯干出现胎毛</td><td>190</td><td>39</td><td>460</td></tr>
+                            <tr><td><strong>22</strong></td><td>皮肤红、皱</td><td>210</td><td>45</td><td>630</td></tr>
+                            <tr><td><strong>24</strong></td><td>指甲全出现，胎体瘦</td><td>230</td><td>50</td><td>820</td></tr>
+                            <tr><td><strong>26</strong></td><td>眼睑部分打开，睫毛出现</td><td>250</td><td>55</td><td>1000</td></tr>
+                            <tr><td><strong>28</strong></td><td>眼重新打开，头发出现，皮肤略皱</td><td>270</td><td>59</td><td>1300</td></tr>
+                            <tr><td><strong>30</strong></td><td>趾甲全出现，胎体平滑，睾丸开始下降</td><td>280</td><td>63</td><td>1700</td></tr>
+                            <tr><td><strong>32</strong></td><td>指甲平齐指尖，皮肤浅红光滑</td><td>300</td><td>68</td><td>2100</td></tr>
+                            <tr><td><strong>36</strong></td><td>胎体丰满，胎毛基本消失，趾甲平齐趾尖，肢体弯曲</td><td>340</td><td>79</td><td>2900</td></tr>
+                            <tr><td><strong>38</strong></td><td>胸部发育好，乳房略隆起，睾丸位于阴囊或腹股沟管，指甲超过指尖</td><td>360</td><td>83</td><td>3400</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-30 胚胎长度测量示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-30 胚胎长度测量示意图</div>
+                <div class="img-desc">A.最长值(GL)；B.顶臀长(CRL)；C.顶臀长(CRL)；D.顶跟长(CHL)</div>
+                <span class="img-source">图片来源：PDF教材第217页</span>
+            </div>
+        </section>
+
+        <!-- 第七节：双胎、多胎和连体双胎 -->
+        <section class="section-card" id="section7">
+            <h2 class="section-title">
+                <span class="section-number">7</span>
+                双胎、多胎和连体双胎
+            </h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">👶👶</span>
+                    双胎（Twins）
+                </h3>
+                <div class="content-text">
+                    <p>双胎又称孪生，其发生率约占新生儿的1%。双胎有两种：</p>
+
+                    <div class="compare-box">
+                        <div class="compare-item left">
+                            <h4>🧬 双卵双胎（Dizygotic Twins）</h4>
+                            <p>双胎来自<span class="important">两个受精卵</span>，它们有各自的胎膜与胎盘，性别相同或不同，相貌和生理特性的差异如同一般兄弟姐妹，仅是同龄而已。</p>
+                        </div>
+                        <div class="compare-item right">
+                            <h4>🧬 单卵双胎（Monozygotic Twins）</h4>
+                            <p>一个受精卵发育为两个胚胎，这种双胎儿的遗传基因完全一样，因此性别一致，相貌、体态和生理特征等也极相似。</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <div class="title">🔀 单卵双胎的成因</div>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-card">
+                                <h4>类型1：两个胚泡</h4>
+                                <p>从受精卵发育出两个胚泡，它们分别植入，两个胎儿有各自的羊膜腔和胎盘。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>类型2：两个内细胞群</h4>
+                                <p>一个胚泡内出现两个内细胞群，各发育为一个胚胎，位于各自的羊膜腔内，但共享一个胎盘。</p>
+                            </div>
+                            <div class="knowledge-card">
+                                <h4>类型3：两个原条</h4>
+                                <p>一个胚盘上出现两个原条与脊索，形成两个神经管，发育为两个胚胎，双胎儿位于同一个羊膜腔内，也共享一个胎盘。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-31 单卵双胎形成示意图 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-31 单卵双胎形成示意图</div>
+                <div class="img-desc">展示三种单卵双胎形成方式：两个胚泡、两个内细胞群、两个原条</div>
+                <span class="img-source">图片来源：PDF教材第218页</span>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">👶👶👶</span>
+                    多胎（Multiplets）
+                </h3>
+                <div class="content-text">
+                    <p>一次娩出两个以上新生儿为多胎。其原因可以是单卵性、多卵性或混合性，以混合性为多。多胎发生率极低，但近年随着临床应用促性腺激素治疗不孕症，以及体外受精-胚胎移植技术的应用，其发生率有所增高。</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">
+                    <span class="subsection-icon">🔗</span>
+                    连体双胎（Conjoined Twins）
+                </h3>
+                <div class="content-text">
+                    <p>是指两个未完全分离的单卵双胎。当一个胚盘出现两个原条并分别发育为两个胚胎时，若两原条靠得较近，胚体形成时发生局部连接，则导致连体双胎。</p>
+
+                    <div class="knowledge-grid">
+                        <div class="knowledge-card">
+                            <h4>⚖️ 对称型</h4>
+                            <p>两个胚胎大小相同，根据连接的部位可分为头连双胎、臀连双胎、胸连双胎、腹连双胎等。</p>
+                        </div>
+                        <div class="knowledge-card">
+                            <h4>⚖️ 不对称型</h4>
+                            <p>两个胚胎一大一小，小者常发育不全，形成<span class="key-term">寄生胎</span>；如果小而发育不全的胚胎被包裹在大的胎体内则称<span class="key-term">胎中胎</span>。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图片占位：图21-32 头胸连双胎和寄生胎 -->
+            <div class="image-placeholder">
+                <div class="img-label">📷 图21-32 头胸连双胎和寄生胎</div>
+                <div class="img-desc">展示连体双胎的病例照片</div>
+                <span class="img-source">图片来源：PDF教材第219页</span>
+            </div>
+        </section>
+
+        <!-- 本章小结 -->
+        <section class="summary-section" id="summary">
+            <h2>📚 本章小结</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h4>🧪 受精</h4>
+                    <p>获能的精子与卵子相遇，释放顶体酶，破坏放射冠、溶蚀透明带，精子细胞核进入卵子内。精子和卵子的细胞核先膨大、后融合，受精卵形成，即为受精。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🫧 胚泡形成</h4>
+                    <p>受精卵在透明带内不断进行有丝分裂，即卵裂。当细胞数达到100个左右时，细胞间出现腔隙，此时透明带消失，细胞团呈泡状结构，称胚泡。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🏠 植入</h4>
+                    <p>胚泡到达子宫，黏附并植入于子宫的体部和底部，最多见于后壁的内膜。滋养层分化为细胞滋养层和合体滋养层。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🔵 二胚层胚盘</h4>
+                    <p>第2周时，内细胞群分化为由上胚层、下胚层组成的两层盘状结构，称胚盘，其上有羊膜腔，下有卵黄囊。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🟢🟡🔴 三胚层胚盘</h4>
+                    <p>第3周时，上胚层部分细胞增殖迁移形成原条，继而形成中胚层、内胚层，上胚层改名外胚层。三胚层胚盘出现，胚盘是人体发生的原基。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🧬 三胚层分化</h4>
+                    <p>外胚层分化为皮肤的表皮及附属器、神经系统等；中胚层分化为心血管系统、泌尿生殖系统、肌组织和各种结缔组织等；内胚层分化为消化系统、呼吸系统、部分泌尿器官的上皮组织。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>👶 胚体形成</h4>
+                    <p>伴随三胚层的分化，胚盘边缘向腹侧卷折形成头褶、尾褶和左右侧褶，扁平形胚盘逐渐变为圆柱形的胚体。至第8周末，胚体外表已可见眼、耳、鼻及四肢，初具人形。</p>
+                </div>
+                <div class="summary-item">
+                    <h4>🛡️ 胎膜与胎盘</h4>
+                    <p>胎膜包括绒毛膜、羊膜、卵黄囊、尿囊和脐带。胎盘是由胎儿的丛密绒毛膜与母体的基蜕膜共同组成的圆盘形结构。胎儿通过胎盘从母体血中获得营养和O₂，排出代谢产物和CO₂。胎盘的合体滋养层细胞还能分泌数种激素，对维持妊娠起重要作用。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 插入框：体外受精胚胎移植技术 -->
+        <section class="section-card" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border: 3px solid #4caf50;">
+            <h2 class="section-title" style="border-bottom-color: #4caf50;">
+                <span class="section-number" style="background: linear-gradient(135deg, #4caf50, #2e7d32);">★</span>
+                插入框：体外受精胚胎移植技术
+            </h2>
+            <div class="content-text">
+                <p>体外受精胚胎移植技术是一种生育辅助技术，俗称<span class="key-term">"试管婴儿"</span>，通过超排卵、人工授精、胚胎培养和移植等步骤，帮助不孕不育夫妇实现妊娠。这项技术的出现，为人类生殖医学的发展开辟了新的道路。</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">1978年7月25日</div>
+                        <p>在英国产科医生帕特里克·斯特普托和生理学家罗伯特·爱德华兹共同努力下，<span class="important">世界上第一位"试管婴儿"诞生</span>，这使体外受精胚胎移植技术从实验室走向了临床实践，对人类生殖医学产生了深远的影响。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">1984年起</div>
+                        <p>我国著名的组织学与胚胎学专家<span class="key-term">刘斌教授</span>与北京大学第三医院张丽珠团队合作进行试管婴儿的研究，在无法获得进口培养液的情况下，刘斌教授使用自己配制的培养液成功完成了人卵体外受精与培养，这是我国"试管婴儿"研究迈出的至关重要的一步。</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">1988年3月10日</div>
+                        <p><span class="important">我国大陆首例"试管婴儿"</span>在北京大学第三医院诞生。</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #f1f8e9, #dcedc8); border-left-color: #689f38;">
+                    <div class="title" style="color: #33691e;">🚀 技术发展</div>
+                    <p>随着科技的进步和医学技术的不断突破，体外受精胚胎移植技术经历了数十年的发展和演变，发展到<span class="key-term">卵细胞质内单精子注射（ICSI）</span>技术，以及<span class="key-term">胚胎植入前遗传学诊断（PGD）</span>技术，诞生了第二代、第三代"试管婴儿"。随着医学技术的不断发展，体外受精胚胎移植技术有望在疾病的预防和治疗方面发挥更大的作用。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>📖 组织学与胚胎学 · 第10版 · 第21章 胚胎发生总论</p>
+            <p style="margin-top:10px; font-size:0.9em;">翻转课堂制作 | 图片位置已标注，请从PDF教材对应页码插入</p>
+        </footer>
+    </div>
+
+    <script>
+        // 导航栏高亮
+        const sections = document.querySelectorAll('.section-card, .summary-section');
+        const navLinks = document.querySelectorAll('.nav-bar a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 平滑滚动
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
